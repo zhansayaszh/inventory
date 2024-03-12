@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Моя панель</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+        <a href="{% url 'item_create' %}" class="card" onmouseover="addNeonShadow(this)" onmouseout="removeNeonShadow(this)">
+            <div class="card-body">
+                <img src="{% static 'img/item.jpg' %}"  class="card-img-top" alt="item">
+                {% comment %} <img src="{% static 'img/logo.png' %}"  alt="Volt Logo"> {% endcomment %}
+                <h5 class="card-title text-center">Добавить Инвентарь</h5>
+                
+            </div>
+        </a>
+    </div>
+    <div class="col">
+        <a href="{% url 'user_create' %}" class="card" onmouseover="addNeonShadow(this)" onmouseout="removeNeonShadow(this)">
+            <div class="card-body">
+                <img src="{% static 'img/user.jpg' %}" class="card-img-top" alt="item">
+                <h5 class="card-title text-center">Добавить Сотрудника</h5>
+            </div>
+        </a>
+    </div>
+    <div class="col">
+        <a href="{% url 'company_create' %}" class="card" onmouseover="addNeonShadow(this)" onmouseout="removeNeonShadow(this)">
+            <div class="card-body">
+                <img src="{% static 'img/company.jpg' %}" class="card-img-top" alt="item">
+                <h5 class="card-title text-center">Добавить Компанию</h5>
+            </div>
+        </a>
+    </div>
+    <div class="col">
+        <a href="{% url 'role_create' %}" class="card" onmouseover="addNeonShadow(this)" onmouseout="removeNeonShadow(this)">
+            <div class="card-body">
+                <img src="{% static 'img/role.jpg' %}" class="card-img-top" alt="item">
+                <h5 class="card-title text-center">Добавить Должность</h5>
+            </div>
+        </a>
+    </div>
+    <p></p>
+</div>
+
+
+<script>
+function addNeonShadow(element) {
+    element.style.boxShadow = "0 0 2px #00FFFF, 0 0 2px #00FFFF, 0 0 2px #00FFFF, 0 0 2px #00FFFF";
+}
+
+function removeNeonShadow(element) {
+    element.style.boxShadow = "none";
+}
+</script>
+{% endblock content %}

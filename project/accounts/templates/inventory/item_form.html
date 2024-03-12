@@ -1,0 +1,92 @@
+{% extends "base/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Инвентарь{% endblock %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <div class="py-4">
+    <div class="d-flex justify-content-between w-100 flex-wrap">
+      <div class="mb-3 mb-lg-0">
+        <h1 class="h4">Добавить Инвентарь</h1>
+      </div>
+     
+    </div>
+  </div>
+  
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        {{ form.name|as_crispy_field }}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{ form.date|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        {{ form.initial_price|as_crispy_field }}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{ form.residual_price|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        {{ form.item_idx|as_crispy_field }}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{ form.qr_id|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        {{ form.serial_number|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        {{ form.company|as_crispy_field }}
+      </div>
+      <div class="col-md-6 mb-2">
+        {{ form.user|as_crispy_field }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-success"> <i class="fa-regular fa-floppy-disk"></i> Сохранить</button>
+      <a href="{% url 'item_list' %}" class="btn btn-primary ms-2"> <i class="fa-solid fa-arrow-rotate-left"></i> Обратно к списку</a>
+      </div>
+    </div>
+  
+</form>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  {% comment %} <script>
+        document.getElementById('{{ form.date.id_for_label }}').addEventListener('input', function() {
+            var inputValue = this.value;
+            var formattedDate = moment(inputValue, 'YYYY-MM-DD').format('DD.MM.YYYY');
+            this.value = formattedDate;
+        });
+
+        function trackSelectChanges() {
+          // Получаем выбранный элемент
+          var selectedOption = document.getElementById('id_company').value;
+        
+          // Выводим результат в консоль
+          console.log('Выбрана опция:', selectedOption);
+        }
+        
+        // Получаем элемент select
+        var dynamicSelect = document.getElementById('id_company');
+        
+        // Добавляем обработчик события change
+        dynamicSelect.addEventListener('change', trackSelectChanges);
+
+
+    </script>  {% endcomment %}
+    
+{% endblock %}

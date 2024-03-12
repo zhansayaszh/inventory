@@ -1,0 +1,45 @@
+{% extends "base/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Форма сотрудника{% endblock %}
+
+{% comment %} {% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="py-4">
+      <div class="d-flex justify-content-between w-100 flex-wrap">
+        <div class="mb-3 mb-lg-0">
+          <h1 class="h4">Моя Анкета</h1>
+        </div>
+       
+      </div>
+    </div>
+    <p>Username: {{ user_profile.user.username }}</p>
+    <p>First Name: {{ user_profile.user.first_name }}</p>
+    <p>Last Name: {{ user_profile.user.last_name }}</p>
+    <p>Email: {{ user_profile.user.email }}</p>
+
+    <a href="{% url 'user_profile_update' pk=user_profile.pk %}">Update</a>
+    
+  </form>  {% endcomment %}
+  {% block content %}
+    <h2>Мой Профиль</h2>
+    {% if user_profile %}
+        <!-- Add more attributes as needed -->
+    <div class="card" style="width: 40rem;">
+        <div class="card-body">
+              <h5 class="card-title">Логин: {{ user_profile.user.username }} </h5>
+              <h6 class="card-text">Имя: {{ user_profile.user.first_name }}</h6>
+              <h6 class="card-text">Фамилия: {{ user_profile.user.last_name }}</h6>
+              <h6 class="card-text">Email: {{ user_profile.user.email }}</h6>
+              <h6 class="card-text">Последний вход: {{ user_profile.user.last_login  }}</h6>
+              
+              <a href="{% url 'user_profile_update' pk=user_profile.pk %}" class="btn btn-outline-success ms-2"><i class="fa-regular fa-pen-to-square fa-lg"></i> Изменить</a>
+              <a href="{% url 'change_password' %}" class="btn btn-primary ms-2"><i class="fa-solid fa-key" style="color: #ffffff;"></i> Поменять пароль</a>
+        </div>
+    </div>
+    {% else %}
+        <p>Данные пользователя не найдены.</p>
+    {% endif %}
+    
+{% endblock %}

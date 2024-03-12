@@ -1,0 +1,352 @@
+{% extends "base/base.html" %}
+
+
+{% block title %}Инвентарь список{% endblock %}
+
+{% block content %}
+<div class="sticky-header">
+ 
+  <div class="d-flex justify-content-between w-100 flex-wrap">
+    <div class="mb-3 mb-lg-0">
+      <h1 class="h4">Инвентарь</h1>
+      
+    </div>
+  </div>
+</div>
+
+  <div class="mb-3 d-flex justify-content-between">
+    <form class="d-flex align-items-center" method="GET" action="{% url 'item_list' %}" onsubmit="removeSearchParams()">
+        <div class="input-group me-2">
+            <input class="form-control" type="text" name="q" placeholder="Введите запрос..." aria-label="Search" value="{{ search_query|default_if_none:""  }}">
+            <button class="btn btn-outline-success" type="submit">Найти</button>
+        </div>
+        
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Компания <i class="fa-solid fa-caret-down"></i>
+          </button>
+          <ul class="dropdown-menu" style="max-height: 200px; overflow-y: auto;">
+              <li><a class="dropdown-item" href="{% url 'item_list' %}">Все компании</a></li>
+              {% for company in company_list %}
+              <li><a class="dropdown-item" href="?company={{ company.id }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ company.name }}</a></li>
+              {% endfor %}
+          </ul>
+        </div>
+      
+    </form>
+    
+    <div class="d-flex align-items-center">
+      <button type="button" class="btn btn-sm btn-outline-danger " data-bs-toggle="modal" data-bs-target="#exampleModal" id="openScannerModal" style="margin-right: 10px;">
+        <i class="fa-solid fa-qrcode"></i> Сканировать
+      </button>
+      <form method="get" action="{% url 'item_create' %}">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Добавить инвентарь
+        </button>
+      </form>
+      <a href="{% url 'import_items' %}" class="btn btn-success ms-2"><i class="fa-solid fa-arrow-up-from-bracket"></i> Загрузить excel файл</a>
+  </div>
+  </div>
+
+<div class="card border-0 shadow mb-4">
+<div class="table-responsive">
+<div class="sticky-table">
+  <table class="table table-centered table-nowrap mb-0 rounded">
+    <thead class="table-white">
+      <tr>
+        <th>Название 
+          {% comment %} <a href="?sort_by=name&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'name' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th>Дата покупки 
+          {% comment %} <a href="?sort_by=date&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'date' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th>Перв. стоимость 
+          {% comment %} <a href="?sort_by=initial_price&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'initial_price' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th>Ост. стоимость 
+          {% comment %} <a href="?sort_by=residual_price&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'residual_price' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th>ID код
+          {% comment %} <a href="?sort_by=item_idx&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'item_idx' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th>QR код 
+          {% comment %} <a href="?sort_by=qr_id&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'qr_id' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th>Серийный номер 
+          {% comment %} <a href="?sort_by=serial_number&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'serial_number' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th>Компания 
+          {% comment %} <a href="?sort_by=company&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'company' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th>Сотрудник 
+          {% comment %} <a href="?sort_by=user&sort_direction={{ sort_direction }}">
+            {% if sort_by == 'user' %}
+              {% if sort_direction == 'asc' %}
+                <i class="fas fa-sort-up text-secondary"></i>
+              {% else %}
+                <i class="fas fa-sort-down text-secondary"></i>
+              {% endif %}
+            {% else %}
+              <i class="fas fa-sort text-secondary"></i>
+            {% endif %}
+          </a> {% endcomment %}
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="userTableBody">
+      {% for item in items %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.date }}</td>
+        <td>{{ item.initial_price }}</td>
+        <td>{{ item.residual_price }}</td>
+        <td>{{ item.item_idx }}</td>
+        <td>{{ item.qr_id }}</td>
+        <td>{{ item.serial_number }}</td>
+        <td>{{ item.company.name }}</td>
+        <td>{{ item.user.first_name }}{{ item.user.last_name }}</td>
+        <td class="d-flex justify-content-end text-end" style="width: 100px;">
+          <form method="get" action="{% url 'item_update' pk=item.pk %}">
+            <button type="submit" class="btn">
+              <i class="fa-regular fa-pen-to-square fa-lg"></i>
+            </button>
+          </form>
+          <form method="post" action="{% url 'item_delete' pk=item.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn" onclick="return confirm('Вы хотите удалить {{ item.name }}?')">
+              <i class="far fa-trash-alt fa-lg text-danger"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+  <div class="fixed-bottom text-center">
+    <!-- Pagination links -->
+    <ul class="pagination justify-content-center">
+        {% if items.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_company %}&company={{ selected_company }}{% endif %}">Начальная</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ items.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_company %}&company={{ selected_company }}{% endif %}">Назад</a></li>
+        {% endif %}
+        <li class="page-item active"><a class="page-link" href="?page={{ items.number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_company %}&company={{ selected_company }}{% endif %}">{{ items.number }}</a></li>
+        {% if items.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ items.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_company %}&company={{ selected_company }}{% endif %}">Вперед</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ items.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_company %}&company={{ selected_company }}{% endif %}">Последняя</a></li>
+        {% endif %}
+  </ul>
+  </div>
+  <div class="modal" id="qrScannerModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">QR Code Scanner</h5>
+          <!-- Close button -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Move the QR code reader here -->
+          <div id="my-qr-reader"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+  function domReady(fn) {
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+        setTimeout(fn, 1); // Call the function asynchronously to ensure it's executed after all other scripts
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
+}
+function onScanSuccess(qrCode) {
+  console.log("Scanned QR code:", qrCode);
+  
+  // Send a request to fetch the list of QR IDs from the backend
+  fetch('all_qr_ids/', {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      // Check if the scanned QR code exists in the list of QR IDs
+      if (data.qr_ids.includes(qrCode)) {
+          console.log("QR code exists in the list.");
+          // Add your logic here to handle the existing QR code
+          window.location.href = `qr_result_page/${qrCode}`;
+      } else {
+          console.log("QR code does not exist in the list.");
+          // Add your logic here to handle the non-existing QR code
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      // Add your logic here to handle errors
+  });
+}
+
+function initQrScanner() {
+    // Ensure that the HTML5 QR Code Scanner is imported properly
+    if (Html5QrcodeScanner) {
+        // Initialize the QR scanner
+        htmlScanner = new Html5QrcodeScanner("my-qr-reader", { fps: 10, qrbox: 250 });
+        htmlScanner.render(onScanSuccess);
+    } else {
+        console.error("Html5QrcodeScanner is not available. Make sure it's imported correctly.");
+    }
+}
+
+// DOM ready handler
+domReady(function () {
+    // Grab the modal element
+    const qrScannerModal = new bootstrap.Modal(
+        document.getElementById("qrScannerModal")
+    );
+
+    // QR Scanner instance
+    let htmlScanner;
+
+    // Event listener for the button click to open the modal and start the scanner
+    const openScannerButton = document.getElementById("openScannerModal");
+    if (openScannerButton) {
+        openScannerButton.addEventListener("click", function () {
+            qrScannerModal.show();
+            initQrScanner();
+        });
+    } else {
+        console.error("Element with id 'openScannerModal' not found.");
+    }
+
+    // Event listener for modal hide event to stop the scanner and then close the modal
+    qrScannerModal._element.addEventListener("hidden.bs.modal", function () {
+        if (htmlScanner) {
+            htmlScanner.stop().then(ignore => {
+                console.log("QR scanner stopped");
+                // Close the modal after stopping the scanner
+                qrScannerModal.hide();
+            }).catch(err => {
+                console.error("Error stopping QR scanner:", err);
+            });
+        } else {
+            // Handle case where scanner might not be initialized
+            qrScannerModal.hide();
+        }
+    });
+
+    // Find the close button
+    const closeButton = document.querySelector("#qrScannerModal .btn-close");
+
+    // Add an event listener to close the modal as usual (for redundancy)
+    if (closeButton) {
+        closeButton.addEventListener("click", () => qrScannerModal.hide());
+    } else {
+        console.error("Close button not found.");
+    }
+
+    // Handle QR codes after the DOM is ready
+    handleQRIds();
+});
+    window.onload = function() {
+      if(performance.navigation.type == 1) {
+        // Check if the URL contains query parameters
+        if (window.location.search.length > 0) {
+          // Remove the query parameters and reload the page
+          window.location.href = window.location.href.split('?')[0];
+        }
+      }
+    };
+</script> 
+
+
+
+{% endblock %}

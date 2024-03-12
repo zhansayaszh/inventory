@@ -1,0 +1,14 @@
+<!-- import_items.html -->
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <h2>Загрузка данных с эксель</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="mt-3">
+        <button type="submit" class="btn btn-success"><i class="fa-regular fa-floppy-disk"></i> Сохранить</button>
+        <a href="{% url 'item_list' %}" class="btn btn-primary ms-2"> <i class="fa-solid fa-arrow-rotate-left"></i> Обратно к списку</a>
+      </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Форма должности{% endblock %}
+
+{% block content %}
+  
+  <form method="post" action="">
+    {% csrf_token %}
+    
+    <div class="py-4">
+  
+      <div class="d-flex justify-content-between w-100 flex-wrap">
+        <div class="mb-3 mb-lg-0">
+          <h1 class="h4">Добавить должность</h1>
+          <p class="mb-0"> Пожалуйста, напишите название должности с заглавной буквы</p>
+        </div>
+       
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10 mb-4">
+        <div class="card border-0 shadow components-section">
+          <div class="card-body">
+            <div class="row mb-4">
+              <div class="col-lg-6 col-sm-6">
+                {{ form|crispy }}
+                <div class="mt-3">
+                  <button type="submit" class="btn btn-success"><i class="fa-regular fa-floppy-disk"></i> Сохранить</button>
+                  <a href="{% url 'role_list' %}" class="btn btn-primary ms-2"><i class="fa-solid fa-arrow-rotate-left"></i> Обратно к списку</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </form>
+
+{% endblock %}

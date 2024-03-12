@@ -1,0 +1,60 @@
+{% extends "base/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Форма сотрудника{% endblock %}
+
+{% block content %}
+  
+  
+  <form method="post">
+    {% csrf_token %}
+    <div class="py-4">
+      <div class="d-flex justify-content-between w-100 flex-wrap">
+        <div class="mb-3 mb-lg-0">
+          <h1 class="h4">Регистрация сотрудника</h1>
+        </div>
+       
+      </div>
+    </div>
+    
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          {{ registerform.first_name|as_crispy_field }}
+        </div>
+        <div class="col-md-6 mb-2">
+          {{ registerform.last_name|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          {{ registerform.username|as_crispy_field }}
+        </div>
+        <div class="col-md-6 mb-2">
+          {{ registerform.email|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          {{ registerform.company|as_crispy_field }}
+        </div>
+        <div class="col-md-6 mb-2">
+          {{ registerform.role|as_crispy_field }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          {{ registerform.is_staff|as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <button type="submit" class="btn btn-success"> <i class="fa-regular fa-floppy-disk"></i> Сохранить</button>
+        <a href="{% url 'user_list' %}" class="btn btn-secondary ms-2"> <i class="fa-solid fa-arrow-rotate-left"></i> Обратно к списку</a>
+        </div>
+      </div>
+    
+  </form>
+{% endblock %}

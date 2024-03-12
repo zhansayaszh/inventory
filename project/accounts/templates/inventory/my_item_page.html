@@ -1,0 +1,28 @@
+{% extends "base/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Result</title>
+</head>
+<body>
+    {% block content %}
+   
+    <h1>Мой инвентарь</h1>
+    
+    {% for item in assigned_items %}
+        <!-- Add more attributes as needed -->
+    <div class="card" style="width: 40rem;">
+        <div class="card-body">
+              <h5 class="card-title">QR код инвентаря: {{ item.qr_id }} </h5>
+              <h6 class="card-text">Название: {{ item.name }}</h6>
+              <h6 class="card-text">ID код: {{ item.item_idx }}</h6>
+              <h6 class="card-text">Серийный номер: {{ item.serial_number }}</h6>
+              <h6 class="card-text">Компания: {{ item.company }}</h6>
+        </div>
+    </div>
+    {% empty %}
+    <li>На вас не зарегистрирован инвентарь</li>
+    {% endfor %}
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% extends "base/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Result</title>
+</head>
+<body>
+    {% block content %}
+    <h1>Инвентарь</h1>
+    {% if item %}
+        <!-- Add more attributes as needed -->
+    <div class="card" style="width: 40rem;">
+        <div class="card-body">
+              <h5 class="card-title">QR код инвентаря: {{ item.qr_id }} </h5>
+              <h6 class="card-text">Название: {{ item.name }}</h6>
+              <h6 class="card-text">Дата покупки: {{ item.date }}</h6>
+              <h6 class="card-text">Первоначальная стоимость: {{ item.initial_price }} KZT</h6>
+              <h6 class="card-text">Остаточная стоимость: {{ item.residual_price }} KZT</h6>
+              <h6 class="card-text">ID код: {{ item.item_idx }}</h6>
+              <h6 class="card-text">Серийный номер: {{ item.serial_number }}</h6>
+              <h6 class="card-text">Компания: {{ item.company }}</h6>
+              <h6 class="card-text">Сотрудник: {{ item.user }}</h6>
+              <a href="{% url 'item_update' pk=item.pk %}" class="btn btn-danger ms-2"><i class="fa-regular fa-pen-to-square fa-lg"></i> Изменить</a>
+              <a href="{% url 'item_list' %}" class="btn btn-secondary ms-2"><i class="fa-solid fa-arrow-rotate-left"></i> Обратно к списку</a>
+        </div>
+    </div>
+    {% else %}
+        <p>QR code data not found.</p>
+    {% endif %}
+    {% endblock %}
+</body>
+</html>
+
+
+

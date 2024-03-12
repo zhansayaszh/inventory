@@ -1,0 +1,99 @@
+{% extends 'base/base-auth.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<section class="h-100 bg-dark">
+  <div class="container py-3 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card card-registration my-2" style="padding-right: 20px;">
+          <div class="row g-0">
+            <div class="col-xl-6 d-none d-xl-block">
+              <img src="{% static 'img/sign_up.png' %}"
+                alt="Sample photo" class="img-fluid"
+                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem; height: 100%;" />
+            </div>
+            <div class="col-xl-6" style="padding-top: 20px;">
+              <div class="card-body p-md-2 text-black">
+                <h3 class="mb-3 text-uppercase text-center">Регистрация</h3>
+                {% if registerform.errors %}
+                  <div class="alert alert-danger">
+                      <strong>Error!</strong> Please correct the following errors:<br>
+                        {% for field, errors in registerform.errors.items %}
+                            {{ field }}: {{ errors }}
+                        {% endfor %}
+                  </div>
+                {% endif %}
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.first_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.last_name|as_crispy_field }}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.username|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.email|as_crispy_field }}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.company|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.role|as_crispy_field }}
+                    </div>
+                  </div>
+
+                  {% comment %} <div class="row">
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.password1|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.password2|as_crispy_field }}
+                    </div>
+                  </div> {% endcomment %}
+
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      {{ registerform.is_staff|as_crispy_field }}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="submit" class="btn btn-gray-800 w-100">Зарегистрироваться</button>
+                    </div>
+                  </div>
+                </form>
+                
+                <div class="text-center mt-3">
+                  <span class="fw-normal">
+                    Есть аккаунт?
+                    <a href="{% url 'my_login' %}" class="fw-bold">Войти в аккаунт</a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+{% endblock content %}
+

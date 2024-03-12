@@ -1,0 +1,80 @@
+{% extends 'base/base-auth.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<section class="h-100 bg-dark">
+  <div class="container-fluid py-3 h-100 d-flex justify-content-center align-items-center">
+    <div class="row">
+      <div class="col">
+        <div class="card card-registration my-2" style="padding-right: 20px;">
+          <div class="row g-0">
+            <div class="col-xl-6 d-none d-xl-block">
+              <img src="{% static 'img/sign_in.png' %}"
+                alt="Sample photo" class="img-fluid"
+                style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem; height: 100%;" />
+            </div>
+            <div class="col-xl-6" style="padding-top: 50px;">
+              <div class="card-body p-md-2 text-black">
+                <h3 class="mb-3 text-uppercase text-center">Вход в Инвентаризацию</h3>
+                <form method="post">
+                  {% csrf_token %}
+                  
+                  <div class="row justify-content-center mb-3">
+                    <div class="col-md-8">
+                      <div class="mb-3">
+                        {{ loginform.username|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row justify-content-center mb-3">
+                    <div class="col-md-8">
+                      <div class="mb-3">
+                        {{ loginform.password|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row justify-content-center">
+                    <div class="col-md-8">
+                      <button type="submit" class="btn btn-gray-800 w-100">Войти</button>
+                    </div>
+                  </div>
+                </form>
+                
+                <div class="d-flex justify-content-center align-items-center mt-4">
+                  <span class="fw-normal">
+                    Забыл пароль?
+                    <a id="resetPasswordLink" href="{% url 'forgot_password' %}" class="fw-bold">Восстановить пароль</a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  document.getElementById("resetPasswordLink").addEventListener("click", function(event) {
+      var link = this;
+      if (!link.getAttribute("data-clicked")) {
+          // Mark the link as clicked
+          link.setAttribute("data-clicked", "true");
+          
+          // Set a timer to remove the "data-clicked" attribute after 5 minutes
+          setTimeout(function() {
+              // Remove the "data-clicked" attribute to allow clicking the link again
+              link.removeAttribute("data-clicked");
+          }, 5 * 60 * 1000); // 5 minutes in milliseconds
+      } else {
+          // Show a message if the link is clicked again within the 5-minute period
+          alert("Please wait 5 minutes before clicking again.");
+          event.preventDefault();
+      }
+  });
+  </script>
+
+{% endblock content %}
