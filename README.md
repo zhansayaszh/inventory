@@ -43,7 +43,7 @@ means that the record is not deleted, but not active anymore.
 - Authorization
 - Authentication
 - QR scanner
-- Excal uploader
+- Excel uploader
 ## Demonstration
 ![image](https://github.com/zhansayaszh/inventory_project/assets/28733943/df734045-a3db-46fe-89a4-6861ddcbee39)
 ![image](https://github.com/zhansayaszh/inventory_project/assets/28733943/75f9fa8f-4d11-451a-91e7-076b55dc037d)
